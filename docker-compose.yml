@@ -1,0 +1,42 @@
+version: '3'
+services:
+    zookeeper:
+        image: wurstmeister/zookeeper
+    kafka:
+        image: wurstmeister/kafka
+        ports:
+            - "9092:9092"
+        environment:
+            KAFKA_ADVERTISED_HOST_NAME: "192.168.118.132"
+            # KAFKA_ADVERTISED_LISTENERS: "172.25.128.146"
+            KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    kafka-ui:
+        image: provectuslabs/kafka-ui:latest
+        ports:
+            - "8080:8080"
+        environment:
+            KAFKA_CLUSTERS_0_NAME: "K8 Kafka Cluster"
+            KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+            KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+    # kafka-ui:
+    #     image: landoop/fast-data-dev
+    #     environment: 
+    #         # KAFKA_REST_PROXY_URL: http://172.25.128.146:9092
+    #         ADV_HOST: 127.0.0.1
+    #         # PROXY: "true"
+    #     ports: 
+    #         - "8000:8000"
+    #         - "2181:2181"
+    #         - "3030:3030"
+    #         - "8081:8081"
+    #         - "8082:8082"
+    #         - "8083:8083"
+    #         # - "9092:9092"
+
+    # kafka-ui:
+    #     image: obsidiandynamics/kafdrop
+    #     environment: 
+    #         KAFKA_BROKERCONNECT: https://172.25.128.146:9092
+    #         # PROXY: "true"
+    #     ports: 
+    #         - "8000:8000"
